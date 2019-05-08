@@ -9,7 +9,7 @@ jedi==0.13.3
 Jinja2==2.10.1
 MarkupSafe==1.1.1
 mkl-fft
-mkl-random==1.0.2
+mkl-random
 numpy==1.16.3
 pandas==0.24.2
 parso==0.4.0
