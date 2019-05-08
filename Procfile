@@ -1,1 +1,1 @@
-web: waitress-serve --port=5000 rc-movie-rec.wsgi:application
+web: waitress-serve --port=5000 API:app
