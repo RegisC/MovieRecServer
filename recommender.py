@@ -21,7 +21,7 @@ class Engine:
 		self.__init_columns_for_distance_calc()
 
 	def __load_data(self):
-		source = 'imdb.csv'
+		source = 'compact-imdb.csv'
 		self.data = pd.read_csv(source, delimiter='\t', keep_default_na=False)
 		print(f"DataFrame chargé de taille {self.data.shape}")
 		self.data.set_index('id', inplace=True)
