@@ -53,26 +53,26 @@ class Engine:
 		plot_kw_pca = pca.fit_transform(plot_kw_freq);	
 		pca_cols = [ 'ACP' + str(c) for c in list(range(0, Engine.DIM_PCA))]
 		df_kw = pd.DataFrame(plot_kw_pca, columns=pca_cols, index=X.index)
-		X1 = pd.concat([X, df_kw], axis=1)
-		print(f"Taille du tableau de données après ACP : {X1.shape}")
+		X = pd.concat([X, df_kw], axis=1)
+		print(f"Taille du tableau de données après ACP : {X.shape}")
 		# Ajout des réalisateurs et des pays
 		cv = CountVectorizer(tokenizer=lambda s: s.split("|"), 
 							 max_features=Engine.NUM_DIRECTORS)
 		directors = cv.fit_transform(self.data['director_name']).todense()
 		dir_list = Engine.__get_feature_list(cv, 'dir_')
 		df_directors = pd.DataFrame(directors, columns=dir_list, index=X.index)
-		X2 = pd.concat([X1, df_directors], axis=1)
-		print(f"Taille du tableau de données avec réalisateurs : {X2.shape}")		
+		X = pd.concat([X, df_directors], axis=1)
+		print(f"Taille du tableau de données avec réalisateurs : {X.shape}")		
 		cv = CountVectorizer(tokenizer=lambda s: s.split("|"), 
 							 max_features=Engine.NUM_COUNTRIES)
 		countries = cv.fit_transform(self.data['country']).todense()
 		c_list = Engine.__get_feature_list(cv, 'country_')
 		df_countries = pd.DataFrame(countries, columns=c_list, index=X.index)
-		X3 = pd.concat([X2, df_countries], axis=1)
-		print(f"Taille du tableau de données avec pays : {X3.shape}")
+		X = pd.concat([X, df_countries], axis=1)
+		print(f"Taille du tableau de données avec pays : {X.shape}")
 		# Calibration du modèle
 		model = KMeans(n_clusters=Engine.NUM_CLUSTERS, random_state=42)
-		self.df_categories = pd.DataFrame(model.fit_predict(X3), 
+		self.df_categories = pd.DataFrame(model.fit_predict(X), 
 										  index=self.data.index, 
 										  columns=['category'])		
 		print(f"Taille du tableau de catégories : {self.df_categories.shape}")
