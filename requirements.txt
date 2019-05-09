@@ -4,7 +4,7 @@ Flask==1.0.2
 itsdangerous==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
-mkl-fft==1.0.12
+mkl-fft
 mkl-random==1.0.2
 numpy==1.16.3
 pandas==0.24.2
