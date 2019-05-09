@@ -25,5 +25,5 @@ def make_rec():
 		return "Erreur : aucun identifiant de film fourni."
 		
 # Lance le serveur
-if __name__ == "__main__":
-	app.run()
+#if __name__ == "__main__":
+#	app.run()

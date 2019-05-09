@@ -71,8 +71,7 @@ class Engine:
 		X3 = pd.concat([X2, df_countries], axis=1)
 		print(f"Taille du tableau de données avec pays : {X3.shape}")
 		# Calibration du modèle
-		np.random.seed(42)
-		model = KMeans(n_clusters=Engine.NUM_CLUSTERS)
+		model = KMeans(n_clusters=Engine.NUM_CLUSTERS, random_state=42)
 		self.df_categories = pd.DataFrame(model.fit_predict(X3), 
 										  index=self.data.index, 
 										  columns=['category'])		
