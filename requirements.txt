@@ -10,7 +10,7 @@ Jinja2
 MarkupSafe
 mkl-fft
 mkl-random
-numpy
+numpy==1.16.3
 pandas
 parso
 pickleshare
