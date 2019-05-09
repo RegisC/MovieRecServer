@@ -24,7 +24,7 @@ class Engine:
 		source = 'compact-imdb.csv'
 		self.data = pd.read_csv(source, delimiter='\t', keep_default_na=False)
 		print(f"DataFrame chargé de dimensions {self.data.shape}")
-		print(f"Taille em mémoire : {data.memory_usage(True, True)}")
+		print(f"Taille em mémoire : {self.data.memory_usage(True, True)}")
 		self.data.set_index('id', inplace=True)
 			
 	def __dist_between_keywords(self, id1, id2):
