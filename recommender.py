@@ -139,8 +139,11 @@ class Engine:
 		
 	def make_rec(self, id, n, sort_by, verbose=False):
 		"""Renvoie `n` recommandations de films similaires au film `id`"""
-		df = self.__make_recs(id, n, sort_by, verbose).reset_index(level=0)
-		dict = {'_results': df.to_dict(orient='records')}
+		if (id in self.data.index):
+			df = self.__make_recs(id, n, sort_by, verbose).reset_index(level=0)
+			dict = {'_results': df.to_dict(orient='records')}
+		else:
+			dict = {'_error': 'unknown movie id'}		
 		return flask.jsonify(dict)
 	
 	@staticmethod
