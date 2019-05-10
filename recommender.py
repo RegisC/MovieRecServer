@@ -13,18 +13,22 @@ class Engine:
 	NUM_DIRECTORS = 30
 	NUM_COUNTRIES = 12
 	NUM_CLUSTERS = 80
+	CALIBRATE_LOCALLY = False
 	
 	def __init__(self):
 		self.__dict__ = self.__shared_state # technique du BORG
 		self.__load_data()
-		self.__create_clusters()
+		if CALIBRATE_LOCALLY:
+			self.__create_clusters()
+		else:
+			self.__load_categories()
 		self.__init_columns_for_distance_calc()
 
 	def __load_data(self):
 		source = 'compact-imdb.csv'
 		self.data = pd.read_csv(source, delimiter='\t', keep_default_na=False)
 		print(f"DataFrame chargé de dimensions {self.data.shape}")
-		print(f"Taille em mémoire : {self.data.memory_usage(True, True)}")
+		print(f"Taille en mémoire : {self.data.memory_usage(True, True).sum()}")
 		self.data.set_index('id', inplace=True)
 			
 	def __dist_between_keywords(self, id1, id2):
@@ -34,7 +38,14 @@ class Engine:
 		n = min(len(kw1), len(kw2))
 		return (n - len(intersection)) / n		
 
+	def __load_categories(self):
+		"""Charge les catégories calibrées au préalable."""
+		source = 'categories.csv'
+		self.df_categories = pd.read_csv(source, delimiter='\t')
+		self.df_categories.set_index('id', inplace=True)
+		
 	def __create_clusters(self):
+		"""Calibre le modèle de partitionnement à partir des données brutes."""
 		# création du tableau de données pour partionnement
 		cols = [col for col in self.data if col.startswith('genre_')]
 		cols.extend(['adj_content_rating', 'adj_title_year', 'adj_imdb_score'])
@@ -82,7 +93,8 @@ class Engine:
 		cat = self.df_categories.loc[id, 'category']
 		mask = (self.df_categories['category'] == cat) & (self.data.index != id)
 		shortlist = self.data.loc[mask, ['movie_title', 'imdb_score']]
-		print(f"Taille de la partition : {len(shortlist)+1}")
+		title = self.data.loc[id, 'movie_title']
+		print(f"Taille de la partition de '{title}' : {len(shortlist)+1}")
 		# Calcul de la distance
 		dist = lambda movie: self.calc_dist(movie, id, 'cosine')
 		shortlist['dist'] = shortlist.index.to_series().apply(dist)
