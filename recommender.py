@@ -18,7 +18,7 @@ class Engine:
 	def __init__(self):
 		self.__dict__ = self.__shared_state # technique du BORG
 		self.__load_data()
-		if CALIBRATE_LOCALLY:
+		if Engine.CALIBRATE_LOCALLY:
 			self.__create_clusters()
 		else:
 			self.__load_categories()
