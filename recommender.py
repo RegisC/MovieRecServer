@@ -139,7 +139,8 @@ class Engine:
 		
 	def make_rec(self, id, n, sort_by, verbose=False):
 		"""Renvoie `n` recommandations de films similaires au film `id`"""
-		if (id in self.data.index):
+		if (id in self.data.index)\
+			and (sort_by.lower() in ['dist', 'imdb_score']):
 			df = self.__make_recs(id, n, sort_by, verbose).reset_index(level=0)
 			dict = {'_results': df.to_dict(orient='records')}
 		else:
